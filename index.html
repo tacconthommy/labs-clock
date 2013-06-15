@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>taccon.clock</title>
+        <link rel="stylesheet" href="css/style.css" media="screen">
+        <script src="js/raphael.js"></script>
+        <script>       
+            window.onload = function () {
+                var secondsSrc = document.getElementById("seconds").src,
+                    secondsAngle = 0,
+                	minutesSrc = document.getElementById("minutes").src,
+                    minutesAngle = 0,
+                	hoursSrc = document.getElementById("hours").src,
+                    hoursAngle = 0,
+                	weekdaySrc = document.getElementById("weekday").src,
+                    weekdayAngle = 0,
+                	markerSrc = document.getElementById("marker").src;                    
+                    
+                function updateTime() {    
+                    
+					var d = new Date,
+							am = (d.getHours() < 12),
+							h = d.getHours() % 12 || 12,
+							wd = 0;
+							
+							
+					switch (d.getDay()) {
+						case 0: wd = 8;
+								break;
+						case 6: wd = 7;
+								break;
+						default: wd = d.getDay()-1;
+					}
+					
+					rotateSeconds(d.getSeconds());
+					rotateMinutes(d.getMinutes());
+					rotateHours(h);
+					rotateWeekday(wd);
+
+	                setTimeout(updateTime, 1000);						
+				}
+
+                    
+                document.getElementById("holder").innerHTML = "";
+                var R = Raphael("holder", 381, 381);
+
+                var secondsImage = R.image(secondsSrc, 0, 0, 381, 381);
+                var minutesImage = R.image(minutesSrc, 0, 0, 381, 381);
+                var hoursImage = R.image(hoursSrc, 0, 0, 381, 381);
+                var weekdayImage = R.image(weekdaySrc, 0, 0, 381, 381);
+                var markerImage = R.image(markerSrc, 177.5, 0, 26, 104);
+
+				function rotateSeconds(secs) {
+                	secondsAngle = secs*(-6);
+                    secondsImage.animate({rotation: secondsAngle}, 500, "<>");
+                }
+
+				function rotateMinutes(mins) {
+                	minutesAngle = mins*(-6);
+                    minutesImage.animate({rotation: minutesAngle}, 500, "<>");
+                }
+                
+                function rotateHours(hrs) {
+                	hoursAngle = hrs*(-30);
+                    hoursImage.animate({rotation: hoursAngle}, 500, "<>");
+                }
+                
+                function rotateWeekday(wd) {
+                	weekdayAngle = wd*(-30);
+                    weekdayImage.animate({rotation: weekdayAngle}, 500, "<>");
+                }
+                
+                setTimeout(function () {R.safari();});
+                setTimeout(updateTime, 1000);
+            };
+        </script>
+    </head>
+    <body>
+        <div id="holder">
+            <img id="seconds" src="images/seconds.png" width="381" height="381" alt="seconds">
+            <img id="minutes" src="images/minutes.png" width="381" height="381" alt="minutes">
+            <img id="hours" src="images/hours.png" width="381" height="381" alt="hours">
+            <img id="weekday" src="images/weekday.png" width="381" height="381" alt="weekday">
+            <img id="marker" src="images/marker.png" width="26" height="100" alt="marker">
+        </div>
+    </body>
+</html>

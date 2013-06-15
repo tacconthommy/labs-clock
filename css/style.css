@@ -1,0 +1,10 @@
+body {
+    background: #090909;
+}
+#holder {
+    height: 395px;
+    width: 385px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}
